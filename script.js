@@ -1,13 +1,23 @@
+Array.prototype.shuffle = function() {
+    var array = this;
+    var m = array.length,
+        t, i;
+    while (m) {
+        i = Math.floor(Math.random() * m--);
+        t = array[m];
+        array[m] = array[i];
+        array[i] = t;
+    }
+    return array;
+}
+
 $(function() {
     loadMathElement();
-    renderMathInElement(document.body);
-    $('*').on('click', function(event) {
-        checkOneElement();
-        event.stopPropagation();
-    });
+    checkOneElement();
 });
 
-function loadMathElement() {
+function loadMathElement(random=0) {
+    $('.row').empty();
     let data = [
         ['5%', '\\(\\frac{1}{20}\\)', '\\(\\frac{1}{10} \\times \\frac{1}{2}\\)', '\\(\\frac{10\\%}{2}=5\\%\\)'],
         ['5.3%', '<span class="color">\\(\\frac{1}{19}\\)</span>', '<small>\\(6-1=5\\)</small> | <small>\\(9-6=3\\)</small>', '<b>一九五点3</b>'],
@@ -29,19 +39,27 @@ function loadMathElement() {
         ['33.3%', '\\(\\frac{1}{3}\\)', '\\(1\\div 3=0.333...\\)', '33.3%'],
         ['50%', '\\(\\frac{1}{2}\\)', '\\(1\\div 2=0.50\\)', '50%'],
     ];
+    if (random) {
+        data.shuffle();
+    }
     let template = '<div class="col"><div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front d-flex align-items-center justify-content-center"><h2>{p}</h2></div><div class="flip-card-back d-flex align-items-center justify-content-center"><p class="t">{t}</p><h1>{f}</h1><p class="b">{b}</p></div></div></div></div>'
     let cols = [];
     for (d of data) {
         let col = template.replace('{p}',d[0]).replace('{f}',d[1]).replace('{t}',d[2]).replace('{b}',d[3]);
         cols.push(col);
     }
-    cols.push('<div class="col"><div class="flip-card per-100 d-flex align-items-center justify-content-center text-white">百化分，冇秘密<br>特殊数字特殊记<br>乘２到６找规律</div></div>');
+    cols.push('<div class="col"><div class="flip-card per-100 d-flex align-items-center justify-content-center text-white" onclick="loadMathElement(1)">增长率，分之一<br>特殊数字特殊记<br>乘２到６找规律</div></div>');
     $('.row').append(cols);
+    renderMathInElement(document.body);
 }
 
 function checkOneElement() {
     let nth = Math.floor(Math.random() * 19) + 1;
-    console.log(nth)
     $('.col.checked').removeClass('checked');
     $('.col:nth-child('+nth+')').addClass('checked');
+    $('.col:nth-child('+nth+')').on('click', function(event) {
+        $(this).off('click');
+        checkOneElement();
+        event.stopPropagation();
+    });
 }
