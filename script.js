@@ -16,7 +16,7 @@ $(function() {
     checkOneElement();
 });
 
-function loadMathElement(random=0) {
+function loadMathElement(random = 0) {
     $('.row').empty();
     let data = [
         ['5%', '\\(\\frac{1}{20}\\)', '\\(\\frac{1}{10} \\times \\frac{1}{2}\\)', '\\(\\frac{10\\%}{2}=5\\%\\)'],
@@ -53,13 +53,16 @@ function loadMathElement(random=0) {
     renderMathInElement(document.body);
 }
 
-function checkOneElement() {
+function checkOneElement(lastNth = 0) {
     let nth = Math.floor(Math.random() * 19) + 1;
+    while (nth == lastNth) {
+        nth = Math.floor(Math.random() * 19) + 1;
+    }
     $('.col.checked').removeClass('checked');
     $('.col:nth-child('+nth+')').addClass('checked');
-    $('.col:nth-child('+nth+')').on('click', function(event) {
+    $('.col:nth-child('+nth+') .flip-card-back').on('click', function(event) {
         $(this).off('click');
-        checkOneElement();
+        checkOneElement(nth);
         event.stopPropagation();
     });
 }
