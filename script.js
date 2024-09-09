@@ -60,8 +60,10 @@ function checkOneElement(lastNth = 0) {
     }
     $('.col.checked').removeClass('checked');
     $('.col:nth-child('+nth+')').addClass('checked');
-    $('.col:nth-child('+nth+') .flip-card-back').on('click', function(event) {
-        $(this).off('click');
+    $('.col:nth-child('+nth+')').on('click', function(event) {
+        $(this).on('click', function() {
+            $(this).trigger('hover');
+        });
         checkOneElement(nth);
         event.stopPropagation();
     });
