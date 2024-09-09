@@ -14,6 +14,9 @@ Array.prototype.shuffle = function() {
 $(function() {
     loadMathElement();
     checkOneElement();
+    $('.col').on('click', function() {
+        $(this).trigger('hover');
+    });
 });
 
 function loadMathElement(random = 0) {
