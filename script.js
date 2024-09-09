@@ -14,9 +14,6 @@ Array.prototype.shuffle = function() {
 $(function() {
     loadMathElement();
     checkOneElement();
-    $('.col').on('click', function() {
-        $(this).trigger('hover');
-    });
 });
 
 function loadMathElement(random = 0) {
@@ -54,6 +51,9 @@ function loadMathElement(random = 0) {
     cols.push('<div class="col"><div class="flip-card per-100 d-flex align-items-center justify-content-center text-white" onclick="loadMathElement(1)">增长率，分之一<br>特殊数字特殊记<br>乘２到６找规律</div></div>');
     $('.row').append(cols);
     renderMathInElement(document.body);
+    $('.col').on('click', function() {
+        $(this).trigger('hover');
+    });
 }
 
 function checkOneElement(lastNth = 0) {
